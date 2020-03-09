@@ -4,7 +4,7 @@ class Conexion {
         $user = "postgres";
         $pass = "12345";
         $host = "localhost";
-        $db = "INIAP_TRANSFER";
+        $db = "AgroIniap";
         $conexion =  new PDO("pgsql:host=$host;dbname=$db;",$user,$pass);
         return $conexion; //cadena de conexion
     }
