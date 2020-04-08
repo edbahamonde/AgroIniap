@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registrar</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+  <link rel="stylesheet" href="Libs/MDBootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="Libs/MDBootstrap/css/mdb.min.css">
+  <link rel="stylesheet" href="Libs/MDBootstrap/css/style.css">
+</head>
+
+<body>
+  <form action="">
+
+    <label for="cedula">
+      <spam>Cédula:</sapm>
+        <input type="text" id="cedula" placeholder="Ingrese su cédula Identidad" />
+    </label>
+
+    <button type="button" id="enviar">Enviar</button>
+  </form>
+  <script>
+
+    $('#enviar').click(function () {
+
+      var Cedula = document.getElementById('cedula').value;
+
+      var ruta = "cedula=" + Cedula;
+
+      $.ajax({
+        url: './Procesos/CedulaVI.php',
+        type: 'POST',
+        data: ruta,
+      })
+        .done(function (res) {
+          $('#respuesta').html(res)
+        })
+        .fail(function () {
+          console.log("error");
+        })
+        .always(function () {
+          console.log("complete");
+        });
+    });
+
+  </script>
+<div class="modal-footer display-footer" id="respuesta"></div>
+
+  <script type="text/javascript" src="Libs/MDBootstrap/js/jquery.min.js"></script>
+  <script type="text/javascript" src="Libs/MDBootstrap/js/popper.min.js"></script>
+  <script type="text/javascript" src="Libs/MDBootstrap/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="Libs/MDBootstrap/js/mdb.min.js"></script>
+  <script type="text/javascript"></script>
+
+</body>
+
+</html>
