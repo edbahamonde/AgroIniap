@@ -22,12 +22,12 @@ $conexion=conexion();?>
 				<div class="col-md-4">
 				</div>
 				<div class="col-md-4">
-					<form role="form">
+					<form role="form" action="../Procesos/RegDireccion.php" method="POST">
                         <div class="form-group">
 							<label for="provincia">
 								Provincia:
                             </label>&nbsp;
-                            <select id="provincia">
+                            <select id="provincia" name="provincia" require>
                                 <option value="0">Seleccionar una Provincia</option>
                             <?php 
                              $sql="SELECT Id_Provincia,nombre FROM Agr_Provincia ORDER BY nombre";
@@ -43,21 +43,21 @@ $conexion=conexion();?>
                             <label for="canton">
 								Canton:
                             </label>&nbsp;&nbsp;&nbsp;&nbsp;
-                            <select id="canton"></select>
+                            <select id="canton" name="canton" require></select>
                             </div>
                             <div class="form-group">
                             <label for="parroquia">
 								Parroquia:
                             </label> 
-                            <select id="parroquia"></select>
+                            <select id="parroquia" name="parroquia" require></select>
                         </div>
                         <div class="form-group">
 							<label for="Ddomicilio">
 								Dirección Domiciliaria:
 							</label>
-                            <textarea class="form-control" id="Ddomicilio" rows="3"></textarea>
+                            <textarea class="form-control" name="Ddireccion" rows="3" require></textarea>
                         </div>
-						<button type="button"  class="btn btn-primary">
+						<button type="submit"  class="btn btn-primary">
 							Continuar
 						</button>
                     </form>

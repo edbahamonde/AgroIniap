@@ -115,6 +115,3 @@ Este Nro de Cedula no corresponde a ninguna provincia del Ecuador
 
 
 ?>
-
-</body>
-</html>
