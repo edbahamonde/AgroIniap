@@ -24,7 +24,7 @@
 							<label for="cedula">
 								Cedula de Identidad:
 							</label>
-							<input type="number" class="form-control" id="cedula" />
+							<input type="number" class="form-control" id="cedula"/>
 						</div>
 						<button type="button" id="enviar" class="btn btn-primary">
 							Continuar
