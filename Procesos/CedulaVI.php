@@ -69,9 +69,7 @@ if ($digito==$ult_digito){//comparo los digitos final y ultimo
     $sql="INSERT INTO Agr_Usuario (CI, Fecha)
     values ('$strCedula', (select current_timestamp))";
     $result=pg_query($conexion,$sql);
-    echo '<div class="alert alert-success" role="alert">
-    <strong>Cédula Correcta!</strong></div>
-    <script> location.href="DatosG.php"; </script>';
+    echo '<script> location.href="DatosG.php"; </script>';
 
   }
 }else{

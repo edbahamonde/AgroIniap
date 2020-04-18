@@ -1,15 +1,22 @@
 <!doctype html>
 <html class="no-js">
 <head>
-	<title>Registro de Usuario</title>
-	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-	<link rel="stylesheet" href="css/strength.css">
-	<script src="js/password_strength.js"></script>
-    <script src="js/jquery-strength.js"></script>
-    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro de Usuario</title>
+  <link rel="icon" href="../Libs/Imagenes/iniap.png" type="image/x-icon"> <!-- Icono de la pagina web -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../Libs/MDBootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../Libs/MDBootstrap/css/mdb.min.css">
+  <link rel="stylesheet" href="../Libs/MDBootstrap/css/style.css">
 </head>
 <body>
+<?php include '../Componentes/navbar.php'; ?><br>
 <div class="col-md-12">
 			<div class="row">
 				<div class="col-md-4">
@@ -17,47 +24,93 @@
 				<div class="col-md-4">
 
             <?php
-            session_start();
+            
             include_once '../Conexion/conexion2.php';
               $conexion=conexion();
 
-              $asociacion = $_POST['asociacion'];
-              $Easociacion = $_POST['Easociacion'];
-              $clave = md5($_POST['clave']);
+      if(isset($_POST['Easociacion'])){   
 
-         $sql2="SELECT correo FROM Agr_usuario ORDER BY Fecha DESC LIMIT 1";
-         $last=pg_query($conexion,$sql2);
+         $asociacion = $_POST['asociacion'];
+         $Easociacion = $_POST['Easociacion'];
 
-         $sql=" update Agr_usuario set asociacion ='$asociacion', e_asociacion ='$Easociacion', clave= '$clave', id_estado = (select Id_Estado from Agr_Estado where nombre_corto = 'R'), 
-          id_tipo_usuario = (select id_tipo_usuario from Agr_Tipo_Usuario where nombre = 'U') where CI= (SELECT CI FROM Agr_usuario ORDER BY Fecha DESC LIMIT 1)";
-         $result=pg_query($conexion,$sql);
+       $sql2="SELECT correo, ci FROM Agr_usuario ORDER BY Fecha DESC LIMIT 1";
+       $last=pg_query($conexion,$sql2);
+       $fila=pg_fetch_array($last);
 
-         while($fila=pg_fetch_array($last)){
-          echo '
-          <br><br>
-           <div class="jumbotron">
-           <form action="EnviarMail.php" method="POST">
-				<h4>
-					Exelente, has completado tu registro!
-				</h4>
-            <p><h5>
-            <div class="form-group">
+       $correo = $fila['correo'];
+       $cedula = $fila['ci'];
+       $clave = md5($cedula.'Iniap');
 
-                    Ya casi estamos listos para empesar!!<br>
-                    Se ha enviado un mail de confirmacion a tu direccion de corréo electronico <br> 
-                    <strong>
-                    <input type="text" class="form-control" name="correo" value="'.$fila['correo'].'" readonly/>
-                    </strong>.<br><br>
-                    <strong>Por favor confirma tu registro!!</strong>
-               <h5>
-            </p>
-            </div>
-				<button type="submit" class="btn btn-primary">
-							Aceptar
-						</button>
-            </form>
-         </div>';
+       $sql=" UPDATE Agr_usuario SET clave = '$clave', asociacion ='$asociacion', e_asociacion ='$Easociacion', id_estado = (select Id_Estado from Agr_Estado where nombre_corto = 'R'), 
+        id_tipo_usuario = (select id_tipo_usuario from Agr_Tipo_Usuario where nombre = 'U') where CI= (SELECT CI FROM Agr_usuario ORDER BY Fecha DESC LIMIT 1)";
+       $result=pg_query($conexion,$sql);
+
+     
+        echo '
+         <div class="jumbotron">
+         <form action="EnviarMail.php" method="POST">
+          <h4>
+             Exelente, has completado tu registro!
+          </h4>
+          <p><h5>
+          <div class="form-group">
+
+                 <strong> Ya casi estamos listos para empesar!!</strong><br>
+                  Se ha enviado un mail de confirmacion a tu direccion de corréo electronico <br> 
+                  <strong>
+                  <input type="text" class="form-control" name="correo" value="'.$correo.'" readonly/>
+                  </strong><br>
+                  <strong>Por favor confirma tu registro!!</strong>
+             <h5>
+          </p>
+          </div>
+          <button type="submit" class="btn btn-primary">
+                   Aceptar
+                </button>
+          </form>
+       </div>';
+       }else{
+
+      $asociacion = $_POST['asociacion'];
+      $Easociacion = null;
+         
+       $sql2="SELECT correo, ci FROM Agr_usuario ORDER BY Fecha DESC LIMIT 1";
+       $last=pg_query($conexion,$sql2);
+       $fila=pg_fetch_array($last);
+
+       $correo = $fila['correo'];
+       $cedula = $fila['ci'];
+       $clave = md5($cedula.'Iniap');
+
+       $sql=" UPDATE Agr_usuario SET clave = '$clave', asociacion ='$asociacion', e_asociacion ='$Easociacion', id_estado = (select Id_Estado from Agr_Estado where nombre_corto = 'R'), 
+        id_tipo_usuario = (select id_tipo_usuario from Agr_Tipo_Usuario where nombre = 'U') where CI= (SELECT CI FROM Agr_usuario ORDER BY Fecha DESC LIMIT 1)";
+       $result=pg_query($conexion,$sql);
+
+        echo '
+        <div class="jumbotron">
+        <form action="EnviarMail.php" method="POST">
+         <h4>
+            Exelente, has completado tu registro!
+         </h4>
+         <p><h5>
+         <div class="form-group">
+
+                <strong> Ya casi estamos listos para empesar!!</strong><br>
+                 Se ha enviado un mail de confirmacion a tu direccion de corréo electronico <br> 
+                 <strong>
+                 <input type="text" class="form-control" name="correo" value="'.$correo.'" readonly/>
+                 </strong><br>
+                 <strong>Por favor confirma tu registro!!</strong>
+            <h5>
+         </p>
+         </div>
+         <button type="submit" class="btn btn-primary">
+                  Aceptar
+               </button>
+         </form>
+      </div>';
          };
+         
              ?>
                 </div>
                 <div class="col-md-4">

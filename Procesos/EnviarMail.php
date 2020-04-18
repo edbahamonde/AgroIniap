@@ -29,7 +29,7 @@ try {
     // Content
     $mail->isHTML(true);                                  // Set email format to HTML
     $mail->Subject = 'Asunto muy importante';
-    $mail->Body    = '<a href="http://localhost/PHP-master/Procesos/ConfirmarU.php">Click en este enlace para confirmar tu Registro</a>';
+    $mail->Body    = '<a href="http://localhost/AgroIniap/Procesos/ConfirmarU.php">Click en este enlace para confirmar tu Registro</a>';
     $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
     $mail->send();

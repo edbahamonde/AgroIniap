@@ -5,10 +5,9 @@ $conexion=conexion();*/
 $id = $_POST['id'];
 
 if($id === "si"){
-echo '<div class="alert alert-info" role="alert">
-  <strong>Importante!</strong> Profavor especifique la asociación!</div>';
-}else{
-    echo '<div class="alert alert-info" role="alert">
-    <strong>Omita!</strong> este recuadro!</div>';  
-}
+echo '<label for="Easociacion">
+Espesifique la asociación:
+</label>
+<textarea class="form-control" name="Easociacion" rows="3" require></textarea>';
+};
 ?>
