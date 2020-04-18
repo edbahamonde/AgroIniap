@@ -1,4 +1,14 @@
-<?php include '../Conexion/conexion2.php';
+<?php
+session_start();
+error_reporting(0); //No mostrar los errores 
+$varsesion = $_SESSION['usuario'];
+
+if($varsesion == null || $varsesion = ''){
+echo 'Upss!! El registro ha terminado';
+die();
+}else{
+
+  include '../Conexion/conexion2.php';
 $conexion=conexion();?>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,12 +36,12 @@ $conexion=conexion();?>
 				<div class="col-md-4">
 				</div>
 				<div class="col-md-4">
-					<form role="form" action="../Procesos/RegDireccion.php" method="POST">
+					<form role="form">
                         <div class="form-group">
 							<label for="provincia">
 								Provincia:
                             </label>&nbsp;
-                            <select id="provincia" name="provincia" require>
+                            <select id="provincia">
                                 <option value="0">Seleccionar una Provincia</option>
                             <?php 
                              $sql="SELECT Id_Provincia,nombre FROM Agr_Provincia ORDER BY nombre";
@@ -47,24 +57,25 @@ $conexion=conexion();?>
                             <label for="canton">
 								Canton:
                             </label>&nbsp;&nbsp;&nbsp;&nbsp;
-                            <select id="canton" name="canton" require></select>
+                            <select id="canton" ></select>
                             </div>
                             <div class="form-group">
                             <label for="parroquia">
 								Parroquia:
                             </label> 
-                            <select id="parroquia" name="parroquia" require></select>
+                            <select id="parroquia" ></select>
                         </div>
                         <div class="form-group">
 							<label for="Ddomicilio">
 								Dirección Domiciliaria:
-							</label>
-                            <textarea class="form-control" name="Ddireccion" rows="3" require></textarea>
+                            </label>
+                            <textarea class="form-control" id="Ddomicilio" rows="3"></textarea>
                         </div>
-						<button type="submit"  class="btn btn-primary">
+						<button type="button" id="enviar" class="btn btn-primary">
 							Continuar
 						</button>
                     </form>
+                    <div class="modal-footer display-footer" id="respuesta"></div>
 				</div>
 				<div class="col-md-4">
 				</div>
@@ -98,6 +109,33 @@ $("#canton").change(function(){
     });
 })
 });
+
+$('#enviar').click(function () {
+
+var Provincia = document.getElementById('provincia').value;
+var Canton = document.getElementById('canton').value;
+var Parroquia = document.getElementById('parroquia').value;
+var DDomicilio = document.getElementById('Ddomicilio').value;
+
+var ruta = "provincia=" + Provincia + "&canton="+ Canton + "&parroquia="+ Parroquia + "&domicilio="+ DDomicilio;
+
+
+$.ajax({
+  url: '../Procesos/RegDireccion.php',
+  type: 'POST',
+  data: ruta,
+})
+  .done(function (res) {
+	$('#respuesta').html(res)
+  })
+  .fail(function () {
+	console.log("error");
+  })
+  .always(function () {
+	console.log("complete");
+  });
+});
+
 </script>
 </div>
 <script type="text/javascript" src="../Libs/MDBootstrap/js/jquery.min.js"></script>
@@ -107,3 +145,4 @@ $("#canton").change(function(){
   <script type="text/javascript"></script>
 </body>
 </html>
+<?php };?>

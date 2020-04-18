@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 $strCedula = validarCI($_POST['cedula']);
 
@@ -65,10 +66,11 @@ if ($digito==$ult_digito){//comparo los digitos final y ultimo
     </button>
     </div>';
   }else{
-    
+
     $sql="INSERT INTO Agr_Usuario (CI, Fecha)
     values ('$strCedula', (select current_timestamp))";
     $result=pg_query($conexion,$sql);
+    $_SESSION['usuario'] = $strCedula;
     echo '<script> location.href="DatosG.php"; </script>';
 
   }

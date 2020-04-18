@@ -1,3 +1,15 @@
+<?php
+session_start();
+error_reporting(0); // No mostrar los errores 
+$varsesion = $_SESSION['usuario'];
+
+if($varsesion == null || $varsesion = ''){
+echo 'Upss!! El registro ha terminado';
+die();
+}else {
+
+?>
+
 <?php include '../Conexion/conexion2.php';
 $conexion=conexion();?>
 <!DOCTYPE html>
@@ -25,30 +37,30 @@ $conexion=conexion();?>
 				<div class="col-md-4">
 				</div>
 				<div class="col-md-4">
-					<form action="../Procesos/RegDatosG.php" method="post" role="form">
+					<form role="form">
 						<div class="form-group"> 
 							<label for="nombres">
-								Nombres:
+								Nombres Completos:
 							</label>
-							<input type="text" class="form-control" name="nombres" />
+							<input type="text" class="form-control" id="nombres"/>
                         </div>
                         <div class="form-group">
 							<label for="apellidos">
-								Apellidos:
+								Apellidos Completos:
 							</label>
-							<input type="text" class="form-control" name="apellidos" />
+							<input type="text" class="form-control" id="apellidos" />
                         </div>
                         <div class="form-group">
 							<label for="correo">
 								Corréo Electrónico:
 							</label>
-							<input type="email" class="form-control" name="correo" />
+							<input type="email" class="form-control" id="correo" />
                         </div>
-						<button type="submit" class="btn btn-primary">
+						<button type="button" id="enviar" class="btn btn-primary">
 							Continuar
 						</button>
-                    </form><br>
-                    <div class="modal-footer display-footer" id="respuesta"></div>
+          </form><br>
+          <div class="modal-footer display-footer" id="respuesta"></div>
 				</div>
 				<div class="col-md-4">
 				</div>
@@ -57,6 +69,34 @@ $conexion=conexion();?>
 	</div>
 </div>
 </div>
+<script> 
+
+$('#enviar').click(function () {
+
+var Nombres = document.getElementById('nombres').value;
+var Apellidos = document.getElementById('apellidos').value;
+var Correo = document.getElementById('correo').value;
+
+var ruta = "nombres=" + Nombres + "&apellidos="+ Apellidos + "&correo="+Correo;
+
+
+$.ajax({
+  url: '../Procesos/RegDatosG.php',
+  type: 'POST',
+  data: ruta,
+})
+  .done(function (res) {
+	$('#respuesta').html(res)
+  })
+  .fail(function () {
+	console.log("error");
+  })
+  .always(function () {
+	console.log("complete");
+  });
+});
+
+</script>
 <script type="text/javascript" src="../Libs/MDBootstrap/js/jquery.min.js"></script>
   <script type="text/javascript" src="../Libs/MDBootstrap/js/popper.min.js"></script>
   <script type="text/javascript" src="../Libs/MDBootstrap/js/bootstrap.min.js"></script>
@@ -64,3 +104,4 @@ $conexion=conexion();?>
   <script type="text/javascript"></script>
 </body>
 </html>
+<?php };?>
