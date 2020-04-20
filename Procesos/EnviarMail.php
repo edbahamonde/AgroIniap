@@ -67,7 +67,7 @@ try {
                                         Bienvenido a la plataforma AgroIniap,<br>
                                         sus credenciales de acceso son:<br><br>
                                         <strong>Usuario:</strong> '.$usuario.',<br><br>
-                                        <strong>Clave:</strong> '.$clave.'<br><br>
+                                        <strong>Clave:</strong> '.$usuario.'Iniap<br><br>
                                       Saludos cordiales.
                                     </p>
                                 </div>';

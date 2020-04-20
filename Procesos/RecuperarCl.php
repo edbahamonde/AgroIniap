@@ -67,7 +67,7 @@ if ($digito==$ult_digito){//comparo los digitos final y ultimo
     
        $clave = substr(md5(microtime()), 1, 10);
     
-       $sql=" UPDATE Agr_Usuario SET clave = '$clave'  where correo = '$correo'";
+       $sql=" UPDATE Agr_Usuario SET clave = '$clave', id_estado = (select Id_Estado from Agr_Estado where nombre_corto = 'R')  where correo = '$correo'";
        $result=pg_query($conexion,$sql); 
     
     
